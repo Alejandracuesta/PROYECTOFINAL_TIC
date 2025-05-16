@@ -8,20 +8,19 @@ Las máquinas virtuales (VM) y los contenedores (como Docker) son tecnologías c
 
 La evaluación se realizó comparando:
 
-- **Docker local** sobre un sistema Ubuntu 22.04 físico con 8 GB de RAM y 4 núcleos de CPU.
-- **GitHub Codespaces**, que ofrece entornos virtualizados bajo demanda con contenedores preconfigurados sobre infraestructura en la nube.
-- (Opcionalmente, se puede replicar en una VM usando VirtualBox y Ubuntu Server 22.04.)
+- Docker local sobre un sistema Ubuntu 22.04 físico con 4 núcleos de CPU.
+- GitHub Codespaces, que ofrece entornos virtualizados bajo demanda con contenedores preconfigurados sobre infraestructura en la nube.
 
 Se utilizaron imágenes base de Ubuntu 22.04 para ambos entornos (Docker y Codespaces), instalando las mismas herramientas de prueba.
 
 ## 3. Métricas evaluadas
 
-Durante las pruebas se midieron cinco factores clave:
+Durante las pruebas usé:
 
-- Uso de CPU y memoria mediante pruebas sintéticas con `sysbench`.
-- Velocidad de acceso a disco utilizando `dd` con archivos grandes.
+- CPU y memoria mediante pruebas sintéticas con `sysbench`.
+- Velocidad de acceso a disco utilizando `dd`.
 - Rendimiento de red con `iperf3`.
-- Tiempos de arranque de los entornos.
+- Tiempos de arranque de ambos.
 - Desempeño de una aplicación Node.js bajo carga simulada con `ab` (Apache Benchmark).
 
 ## 4. Resultados y diferencias entre Docker local y Codespaces
@@ -34,8 +33,8 @@ En pruebas automatizadas, iniciar un contenedor localmente con Docker (`docker r
 
 Ejecutando `sysbench cpu --threads=4 --time=30`:
 
-- En **Docker local**, se alcanzaron alrededor de **650 eventos por segundo**, aprovechando el hardware del host sin virtualización adicional.
-- En **Codespaces**, el mismo benchmark alcanzó solo **480–520 eventos por segundo**, probablemente por las restricciones del entorno compartido y la virtualización adicional de la infraestructura cloud.
+- En Docker local, se alcanzaron alrededor de **650 eventos por segundo**, aprovechando el hardware del host sin virtualización adicional.
+- En Codespaces, el mismo benchmark alcanzó solo **480–520 eventos por segundo**, probablemente por las restricciones del entorno compartido y la virtualización adicional de la infraestructura cloud.
 
 ### 🧠 Uso de memoria
 
@@ -45,8 +44,8 @@ La memoria usada por Docker local al ejecutar las pruebas fue más estable (~500
 
 La prueba `dd if=/dev/zero of=testfile bs=1G count=1 oflag=dsync`:
 
-- En **Docker local**, tardó entre **1.8 y 2.2 segundos** en completarse.
-- En **Codespaces**, los tiempos variaron entre **3.5 y 6.0 segundos**, indicando un sistema de archivos virtualizado más lento.
+- En Docker local, tardó entre **1.8 y 2.2 segundos** en completarse.
+- En Codespaces, los tiempos variaron entre **3.5 y 6.0 segundos**, indicando un sistema de archivos virtualizado más lento.
 
 ### 🌐 Red
 
@@ -59,8 +58,8 @@ La prueba con `iperf3` (desde y hacia el contenedor):
 
 Con una pequeña aplicación Node.js expuesta en el puerto 3000 y ejecutando `ab -n 1000 -c 10`:
 
-- Docker local: manejó ~950 req/s con una latencia promedio de 15–20 ms.
-- Codespaces: logró ~700 req/s y la latencia fue más alta (~35–50 ms).
+- Docker local: manejó **~950 req/s** con una latencia promedio de **15–20 ms**.
+- Codespaces: logró **~700 req/s** y la latencia fue más alta (**~35–50 ms**).
 
 ## 5. Análisis comparativo
 
@@ -80,7 +79,8 @@ En resumen:
 
 ## 🛠 Cómo ejecutar este proyecto
 
-1. Clona el repositorio:
-   ```bash
-   git clone https://github.com/tuusuario/vm-vs-docker-benchmark.git
-   cd vm-vs-docker-benchmark
+Clona el repositorio:
+
+```bash
+git clone https://github.com/tuusuario/vm-vs-docker-benchmark.git
+cd vm-vs-docker-benchmark
