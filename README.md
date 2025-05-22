@@ -1,79 +1,99 @@
-# 🧪 Evaluación comparativa de rendimiento: Docker local vs GitHub Codespaces
+# 🧪 VM vs Docker Benchmark con PacMan 🎮
 
-Este proyecto tiene como objetivo comparar el rendimiento de entornos de desarrollo que utilizan contenedores Docker localmente frente a GitHub Codespaces, una solución basada en la nube. 
+Este proyecto compara el rendimiento de un entorno Docker frente a un entorno de máquina virtual (VM, como GitHub Codespaces) utilizando un pequeño juego en Java: **PacMan**.
 
----
-
-##  Estructura del repositorio
-
-El proyecto está organizado en varias carpetas:
-
-- La carpeta `bench` contiene los scripts que ejecutan diferentes pruebas de rendimiento.
-- El archivo `README.md` documenta el objetivo del proyecto, las pruebas realizadas.
+Se evalúan múltiples métricas de sistema mientras el juego se ejecuta en ambos entornos.
 
 ---
 
-## 🚀 Descripción de los scripts
+## 🧠 ¿Qué se compara?
 
-**Prueba de CPU:**  
-Uso una herramienta de benchmark para medir cuántos eventos por segundo puede procesar el sistema. Ésto permite comparar la potencia de cómputo entre entornos.
-
-**Prueba de disco:**  
-Simula escritura de un archivo grande en el sistema de archivos para evaluar la velocidad de escritura del disco.
-
-**Prueba de memoria:**  
-Se genera una carga controlada sobre la memoria RAM para observar cómo se comporta el entorno frente a una demanda intensiva de memoria.
-
-**Prueba de red:**  
-Se mide la velocidad de transferencia de datos y la latencia entre el contenedor y su entorno mediante una herramienta de análisis de red.
-
-**Prueba de aplicación real:**  
-Se ejecuta una pequeña aplicación Node.js y se simula tráfico concurrente para medir cuántas peticiones por segundo puede manejar, así como el tiempo de respuesta promedio.
-
-**Medición del tiempo de arranque:**  
-Se mide el tiempo que tarda el entorno en estar completamente listo desde el momento en que se lanza el contenedor o se inicia el entorno de Codespace.
+| Métrica              | Descripción                                                                 |
+|----------------------|-----------------------------------------------------------------------------|
+| ⏱ Tiempo de arranque | Tiempo total desde el inicio hasta la finalización del script.              |
+| 🧠 Uso de CPU         | Promedio de uso de CPU durante la ejecución.                                |
+| 💾 Memoria            | Memoria RAM media utilizada (en MB).                                        |
+| 📝 Escritura en disco | Total de datos escritos en disco (en MB).                                   |
+| 🌐 Uso de red         | Total de datos transmitidos y recibidos por red (en MB).                    |
 
 ---
 
-## 🧪 Requisitos para ejecutar el proyecto
+## 📦 Estructura del Proyecto
 
-Para ejecutar estas pruebas necesitas tener instalado:
+vm_vs_docker_benchmark/
+├── pacman/
+│ └── src/
+│ └── PacManGame.java 
+├── scripts/
+│ ├── Dockerfile
+│ ├── docker_setup.sh 
+│ ├── vm_setup.sh 
+│ ├── run_benchmark.sh 
+│ ├── benchmark_runner.py
+│ └── monitor_metrics.py 
+├── results/
+│ ├── metrics.txt 
+│ ├── times.txt
+│ ├── benchmark_chart.png
+│ └── full_benchmark.png
+│ 
+├── notebooks/
+│ ├── install.ipynb
+│ ├── vm_vs_docker_comparison.ipybn
+│ └── docker_vs_codespaces_results.ipynb 
+│
+├── README.md
+└── .gitignore
+README.md
+setup_project.sh
 
-- Docker, para poder lanzar contenedores.
-- Herramientas de benchmark como `sysbench`, `stress`, `iperf3`, y `ab`.
+## 🎯 Objetivos del Proyecto
 
-Estas herramientas deben estar presentes tanto en un entorno local como en Codespaces para asegurar que las comparaciones sean justas.
+- Comparar el rendimiento de ejecución del mismo juego (PacMan en Java) en dos entornos distintos:
+  - 🐳 Docker (contenedor ligero)
+  - 💻 VM (GitHub Codespaces u otra máquina virtual)
 
----
+- Evaluar las siguientes métricas de sistema en ambos entornos:
+  - ⏱ Tiempo de arranque
+  - 🧠 Uso promedio de CPU
+  - 💾 Uso promedio de memoria RAM
+  - 📝 Escritura en disco
+  - 🌐 Tráfico de red
 
-## ▶️ Cómo se ejecuta el proyecto
+- Automatizar la recolección de métricas y su visualización gráfica.
 
-Una vez dentro del entorno (ya sea Docker o Codespaces), puedes ejecutar cada una de las pruebas de forma manual. Ésto se hace ejecutando los scripts de la carpeta `bench` uno a uno. Cada script registra los resultados en la consola.
+- Ayudar a tomar decisiones informadas sobre qué entorno es más eficiente en función del uso.
 
----
+## 📊 Resultados
 
-## 📌 Objetivo del proyecto
+Después de ejecutar el benchmark, se generan dos archivos principales:
 
-Este proyecto se encarga de dar una evaluación objetiva sobre las diferencias entre ejecutar contenedores Docker de forma local contra utilizar un entorno virtualizado como GitHub Codespaces. Determino:
+- `results/metrics.txt`: contiene las métricas numéricas extraídas para Docker y VM.
+- `results/full_benchmark.png`: gráfico visual que compara las métricas entre los dos entornos.
 
-- Qué tan rápido responde cada entorno.
-- Cómo manejan la carga computacional.
-- Qué diferencias hay en cuanto al acceso a disco y red.
-- Cómo se comportan en escenarios prácticos con aplicación real.
+### 📄 Ejemplo de `metrics.txt`
 
----
+VM_boot_time=2.34
+VM_cpu=45.23
+VM_memory=305.12
+VM_disk_write=5.10
+VM_network=0.23
 
-## ✅ Resultados esperados
+Docker_boot_time=1.87
+Docker_cpu=35.70
+Docker_memory=289.76
+Docker_disk_write=4.80
+Docker_network=0.20
 
-Después de ejecutar todas las pruebas, se espera tener una visión más acertada sobre:
 
-- La velocidad de arranque de cada entorno.
-- La capacidad de procesamiento de CPU en ambos casos.
-- La estabilidad y uso de memoria.
-- Las velocidades de escritura en disco y de transmisión de red.
-- El rendimiento de una aplicación en condiciones reales de uso.
+### 📈 Gráfico generado
 
-Mediante estos datos sabrás de antemano cuál de estos dos entornos te vendría mejor dependiendo de tu necesidades.
+- El archivo `full_benchmark.png` muestra una comparación en barras entre:
+  - Tiempo de arranque
+  - Uso de CPU
+  - Memoria RAM
+  - Escritura en disco
+  - Tráfico de red
 
----
+Este gráfico se genera automáticamente al final del benchmark.
 
