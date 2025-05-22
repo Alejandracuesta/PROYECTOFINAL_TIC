@@ -1,0 +1,11 @@
+# Ignorar archivos compilados de Java
+*.class
+
+# Ignorar resultados
+results/
+
+# Ignorar archivos temporales y cachés
+*.log
+*.tmp
+__pycache__/
+.ipynb_checkpoints/
