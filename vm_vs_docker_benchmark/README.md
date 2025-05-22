@@ -1,23 +1,29 @@
 # 🧪 VM vs Docker Benchmark con PacMan 🎮
 
-## 1. Introducción
+# 1. Introducción
 
 Las máquinas virtuales operan con un programa raro, una capa que permite usar muchos sistemas en el mismo aparato. Esto sugiere que cada máquina virtual trae su propio programa base, lo que causa mayor uso de los recursos. Por otro lado, las cajas, como usa Docker, no necesitan un sistema entero para cada cosa. Más bien, comparten el mismo centro del sistema base, lo que las hace más ligeras y veloces.
 
 Estas diferencias técnicas tienen un impacto directo en aspectos clave del rendimiento: uso de CPU, memoria, acceso a disco, red y tiempo de arranque. El objetivo de este documento es comparar ambos enfoques a través de pruebas concretas, con datos objetivos que ayuden a decidir cuál conviene más en cada situación.
 
-## 2. Preparación del entorno
+---
 
-Para realizar esta comparativa, se configuraron dos entornos con una base común, pero que se diferencian en su arquitectura y lugar de ejecución.
+# 2. Datos extraídos de los gráficos de rendimiento
 
-**Docker en local:** Se ejecutó sobre una máquina física con Ubuntu 22.04, equipada con 4 núcleos de CPU y recursos suficientes para ejecutar el juego PacMan con fluidez. Este entorno representa una configuración de desarrollo habitual en equipos personales.
+| Métrica                         | Docker (Local)       | Codespaces (VM)     |
+|---------------------------------|-----------------------|----------------------|
+| **Tiempo de arranque**          | 1.2 s                | 10–15 s              |
+| **CPU (eventos/s con sysbench)**| ~650 eventos/s        | 480–520 eventos/s    |
+| **Consumo de memoria**          | ~500 MB estables     | 500–700 MB (variable)|
+| **Escritura en disco (1 GB)**   | 1.8 – 2.2 s           | 3.5 – 6 s            |
+| **Velocidad de red (iperf3)**   | ~940 Mbps             | 100 – 300 Mbps       |
+| **Latencia de red**             | <10 ms                | 60 – 100 ms          |
+| **Carga de aplicación (ab test)**| 1000 req en 5.2 s     | 1000 req en 8.9 s    |
+| **FPS en PacMan (estimado)**    | 60 FPS estables       | 40–50 FPS            |
 
-**GitHub Codespaces:** Se trata de un entorno gestionado en la nube que permite lanzar contenedores directamente desde el navegador, sin necesidad de instalar nada en el ordenador. Utiliza la infraestructura en la nube de GitHub y Microsoft para ofrecer entornos listos para ejecutar aplicaciones como PacMan desde cualquier sitio.
+> Nota: Los datos pueden variar ligeramente según la carga del sistema, calidad de la conexión y limitaciones impuestas por el proveedor en el caso de Codespaces.
 
-En ambos casos se utilizaron imágenes base de Ubuntu 22.04, y se instalaron manualmente las herramientas necesarias para las pruebas de rendimiento durante la ejecución del juego PacMan.
-
-Esta preparación garantiza que cualquier diferencia en los resultados se deba exclusivamente al tipo de entorno (local o en la nube), y no a las herramientas o sistemas utilizados.
-
+![alt text](image.png)
 ---
 
 ## 3. Métricas analizadas
