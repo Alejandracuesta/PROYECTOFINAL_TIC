@@ -20,6 +20,7 @@ Se evalúan múltiples métricas de sistema mientras el juego se ejecuta en ambo
 
 ## 📦 Estructura del Proyecto
 
+```text
 vm_vs_docker_benchmark/
 ├── pacman/
 │ └── src/
@@ -46,6 +47,7 @@ vm_vs_docker_benchmark/
 └── .gitignore
 README.md
 setup_project.sh
+```
 
 ## 🎯 Objetivos del Proyecto
 
