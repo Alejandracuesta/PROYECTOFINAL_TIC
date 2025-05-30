@@ -1,6 +1,6 @@
 # 🧪 VM vs Docker Benchmark con PacMan 🎮
 
-# 1. Introducción
+## 1. Introducción
 
 Las máquinas virtuales operan con un programa raro, una capa que permite usar muchos sistemas en el mismo aparato. Esto sugiere que cada máquina virtual trae su propio programa base, lo que causa mayor uso de los recursos. Por otro lado, las cajas, como usa Docker, no necesitan un sistema entero para cada cosa. Más bien, comparten el mismo centro del sistema base, lo que las hace más ligeras y veloces.
 
@@ -8,7 +8,19 @@ Estas diferencias técnicas tienen un impacto directo en aspectos clave del rend
 
 ---
 
-# 2. Datos extraídos de los gráficos de rendimiento
+## 2. Datos extraídos de los gráficos de rendimiento
+Se utilizaron dos entornos distintos con la misma base (Ubuntu 22.04):
+
+- **Docker Local**  
+  - Sistema operativo host: Ubuntu 22.04  
+  - CPU: 4 núcleos físicos  
+  - Entorno: Docker Engine local  
+  - Imagen base: Ubuntu 22.04
+
+- **GitHub Codespaces (entorno tipo VM/Contenedor en la nube)**  
+  - Infraestructura en la nube  
+  - Entorno virtualizado con Docker  
+  - Imagen base: Ubuntu 22.04
 
 | Métrica                         | Docker (Local)       | Codespaces (VM)     |
 |---------------------------------|-----------------------|----------------------|
@@ -23,7 +35,24 @@ Estas diferencias técnicas tienen un impacto directo en aspectos clave del rend
 
 > Nota: Los datos pueden variar ligeramente según la carga del sistema, calidad de la conexión y limitaciones impuestas por el proveedor en el caso de Codespaces.
 
-![alt text](image.png)
+(![alt text](image.png))
+
+### 📁 Archivos del Proyecto
+
+- `análisis_comparativo.py`: Código que genera los resultados y el gráfico
+- `comparativa_rendimiento.png`: Imagen con los resultados visualizados
+- `install.ipynb`: Instalación automatizada de dependencias y librerías
+- `README.md`: Este archivo
+
+---
+
+### 🚀 Cómo ejecutar
+
+1. Asegúrate de tener Python instalado
+2. Instala dependencias: `pip install matplotlib`
+3. Ejecuta el análisis:  
+   ```bash
+   python análisis_comparativo.py
 ---
 
 ## 3. Métricas analizadas
